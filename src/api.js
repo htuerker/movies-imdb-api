@@ -1,6 +1,6 @@
 const baseUrl = "https://api.themoviedb.org/3";
 
-export const fetchTopRatedMovies = (limit = 5) =>
+export const fetchTopRatedMovies = () =>
   fetch(
     `${baseUrl}/movie/top_rated?api_key=${process.env.REACT_APP_TMDB_API_KEY}`
   )

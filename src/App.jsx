@@ -16,7 +16,7 @@ export function MovieDetails() {
     error: null,
   });
 
-  const { status, movie, error } = state;
+  const { status, movie } = state;
 
   useEffect(() => {
     if (!movieId) {
@@ -84,7 +84,7 @@ export function MoviePosterCard({ movie }) {
 }
 
 function App() {
-  const [searchInput, setSearchInput] = useState("");
+  // const [searchInput, setSearchInput] = useState("");
   const [topRatedMovies, setTopRatedMovies] = useState([]);
 
   useEffect(() => {
@@ -95,15 +95,15 @@ function App() {
     hello();
   }, []);
 
-  const handleSearchChange = (event) => {
-    setSearchInput(event.target.value);
-  };
+  // const handleSearchChange = (event) => {
+  //   setSearchInput(event.target.value);
+  // };
 
-  const handleSearchClick = (event) => {
-    event.preventDefault();
+  // const handleSearchClick = (event) => {
+  //   event.preventDefault();
 
-    fetchTopRatedMovies();
-  };
+  //   fetchTopRatedMovies();
+  // };
 
   return (
     <div className="App">
