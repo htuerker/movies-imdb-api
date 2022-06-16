@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import MovieDetailsContainer from "../containers/MovieDetailsContainer";
 import MoviesContainer from "../containers/MoviesContainer";

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchPopularMovies, fetchTopRatedMovies } from "../api";
-import { mockMovies } from "../mock";
 
 export function MoviePosterCard({ movie }) {
   return (
@@ -38,7 +37,6 @@ function MoviesContainer({ filter }) {
         default:
           break;
       }
-      console.log(moviesFetched);
       setMovies(moviesFetched);
     };
     fetchMovies();
