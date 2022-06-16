@@ -2,17 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import App, { MovieDetails } from "./App";
 import reportWebVitals from "./reportWebVitals";
+import MoviesPage from "./pages/MoviesPage";
+import Layout from "./components/Layout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/movies/:movieId" element={<MovieDetails />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<MoviesPage />} />
+          <Route path="/movies" element={<MoviesPage />} />
+          <Route path="/movies/:movieId" element={<MoviesPage />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   </React.StrictMode>
 );
