@@ -7,6 +7,12 @@ export const fetchTopRatedMovies = () =>
     .then((resp) => resp.json())
     .then((data) => data.results);
 
+export const fetchPopularMovies = () =>
+  fetch(
+    `${baseUrl}/movie/popular?api_key=${process.env.REACT_APP_TMDB_API_KEY}`
+  )
+    .then((resp) => resp.json())
+    .then((data) => data.results);
 export default {
   fetchTopRatedMovies,
 };

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import MovieDetailsContainer from "../containers/MovieDetailsContainer";
 import MoviesContainer from "../containers/MoviesContainer";
 
@@ -42,11 +42,13 @@ function Sidebar({ activeFilter, handleFilterChange }) {
 function MoviesPage() {
   const navigate = useNavigate();
   const { movieId } = useParams();
-  const [activeFilter, setActiveFilter] = useState("top-rated");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const activeFilter = searchParams.get("filter") || "top-rated";
 
   const handleFilterChange = (event) => {
     event.preventDefault();
-    setActiveFilter(event.target.value);
+    setSearchParams({ filter: event.target.value });
   };
 
   if (movieId === undefined) {
@@ -57,7 +59,7 @@ function MoviesPage() {
           handleFilterChange={handleFilterChange}
         />
         <div className="basis-3/4">
-          <MoviesContainer />
+          <MoviesContainer filter={activeFilter} />
         </div>
       </div>
     );

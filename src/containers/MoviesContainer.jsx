@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchPopularMovies, fetchTopRatedMovies } from "../api";
 import { mockMovies } from "../mock";
 
 export function MoviePosterCard({ movie }) {
@@ -22,16 +23,26 @@ export function MoviePosterCard({ movie }) {
   );
 }
 
-function MoviesContainer() {
+function MoviesContainer({ filter }) {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     const fetchMovies = async () => {
-      // const movies = await fetchTopRatedMovies();
-      // setTopRatedMovies(movies);
-      setMovies(mockMovies);
+      let moviesFetched = [];
+      switch (filter) {
+        case "top-rated":
+          moviesFetched = await fetchTopRatedMovies();
+          break;
+        case "popular":
+          moviesFetched = await fetchPopularMovies();
+          break;
+        default:
+          break;
+      }
+      console.log(moviesFetched);
+      setMovies(moviesFetched);
     };
     fetchMovies();
-  });
+  }, [filter]);
   return (
     <div className="flex flex-row flex-wrap w-full">
       {movies.map((movie) => (
