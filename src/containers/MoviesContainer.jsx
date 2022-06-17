@@ -9,7 +9,7 @@ export function MoviePosterCard({ movie }) {
       <Link to={`/movies/${movie.id}`}>
         <img
           src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-          alt="something"
+          alt={movie.title}
         />
         <div className="absolute inset-0 invisible group-hover:visible bg-gray-500 opacity-40" />
         <div className="flex absolute bottom-0 invisible group-hover:visible z-10 flex-col justify-end items-center w-full text-orange-300 bg-gray-700">

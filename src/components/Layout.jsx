@@ -17,7 +17,7 @@ function Navbar() {
 // eslint-disable-next-line react/prop-types
 function Layout({ children }) {
   return (
-    <div className="relative mx-auto w-full md:container lg:container">
+    <div className="relative mx-auto w-full lg:container">
       <Navbar />
       <div>{children}</div>
     </div>

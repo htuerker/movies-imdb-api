@@ -16,3 +16,8 @@ export const fetchPopularMovies = () =>
 export default {
   fetchTopRatedMovies,
 };
+
+export const fetchMovieSearch = (searchText) =>
+  fetch(
+    `${baseUrl}/search/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&query=${searchText}`
+  );
