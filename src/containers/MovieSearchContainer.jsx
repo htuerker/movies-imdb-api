@@ -13,6 +13,10 @@ function MovieSearchContainer({ searchText }) {
 
   const { status, movies, error } = state;
 
+  if (error) {
+    console.log(error);
+  }
+
   useEffect(() => {
     if (!searchText) {
       return;
@@ -60,6 +64,10 @@ function MovieSearchContainer({ searchText }) {
         )}
       </div>
     );
+  }
+
+  if (status === "rejected") {
+    return <div>Something went wrong...</div>;
   }
 
   return (
