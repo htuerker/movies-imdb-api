@@ -21,7 +21,7 @@ function MovieSearchContainer({ searchText }) {
     if (!searchText) {
       return;
     }
-    setState("pending");
+    setState({ status: "pending" });
     fetchMovieSearch(searchText)
       .then((resp) => resp.json())
       .then((searchData) =>
@@ -30,10 +30,18 @@ function MovieSearchContainer({ searchText }) {
       .catch((err) => setState({ status: "rejected", error: err }));
   }, [searchText]);
 
+  if (status === "idle") {
+    return <div className="p-2 text-gray-500">Type something to search!</div>;
+  }
+
+  if (status === "pending") {
+    return <div className="p-2 text-gray-500">Loading search results!</div>;
+  }
+
   if (status === "resolved") {
     return (
       <div>
-        {movies.length > 0 && "hello" ? (
+        {movies.length > 0 ? (
           <ul>
             {movies.map((movie) => (
               <li className="pl-1 my-1 hover:bg-gray-100">
@@ -60,7 +68,7 @@ function MovieSearchContainer({ searchText }) {
             ))}
           </ul>
         ) : (
-          <div className="text-white">No result</div>
+          <div className="p-2 text-gray-500">No result</div>
         )}
       </div>
     );

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import MovieDetailsContainer from "../containers/MovieDetailsContainer";
 import MoviesContainer from "../containers/MoviesContainer";
@@ -12,30 +12,37 @@ const FILTERS = [
   { tag: "genre-sci-fi", text: "Sci-Fi", color: "rgb(111, 136, 107)" },
 ];
 
+const debounce = (func) => {
+  let timer;
+  return (...args) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      timer = null;
+      func(...args);
+    }, 500);
+  };
+};
+
 function Sidebar({
   activeFilter,
   handleFilterChange,
   handleSearchChange,
-  handleSearchClick,
+  setSearchHasFocus,
   children,
 }) {
   const isCurrentFilter = (filter) => filter.tag === activeFilter;
   return (
-    <div className="basis-full mb-5 md:basis-2/5 md:px-3">
+    <div className="basis-full mb-5 transition-all md:basis-2/5 md:px-3">
       <input
         onChange={handleSearchChange}
+        onFocus={() => setSearchHasFocus(true)}
+        onBlur={() => setTimeout(() => setSearchHasFocus(false), 100)}
         className="block p-2 w-full outline-none"
         placeholder="Search..."
       />
       <div className="mb-3 bg-white">{children}</div>
-      <button
-        onClick={handleSearchClick}
-        type="button"
-        className="block p-2 mb-3 w-full text-white bg-purple-500 rounded"
-        placeholder="Search..."
-      >
-        Search
-      </button>
       <ul className="flex flex-wrap gap-3 h-auto">
         {FILTERS.map((filter) => (
           <li
@@ -65,7 +72,7 @@ function MoviesPage() {
   const { movieId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchInput, setSearchInput] = useState("");
-  const [searchClicked, setSearchClicked] = useState(false);
+  const [searchHasFocus, setSearchHasFocus] = useState(false);
 
   const activeFilter = searchParams.get("filter") || "top-rated";
 
@@ -78,10 +85,7 @@ function MoviesPage() {
     setSearchInput(event.target.value);
   };
 
-  const handleSearchClick = (event) => {
-    event.preventDefault();
-    setSearchClicked(true);
-  };
+  const debouncedSearchChange = useCallback(debounce(handleSearchChange), []);
 
   if (movieId === undefined) {
     return (
@@ -89,10 +93,10 @@ function MoviesPage() {
         <Sidebar
           activeFilter={activeFilter}
           handleFilterChange={handleFilterChange}
-          handleSearchChange={handleSearchChange}
-          handleSearchClick={handleSearchClick}
+          handleSearchChange={debouncedSearchChange}
+          setSearchHasFocus={setSearchHasFocus}
         >
-          {searchClicked && <MovieSearchContainer searchText={searchInput} />}
+          {searchHasFocus && <MovieSearchContainer searchText={searchInput} />}
         </Sidebar>
         <div className="basis-3/4">
           <MoviesContainer filter={activeFilter} />
